@@ -14,9 +14,18 @@
 extern char display_line[4][11];
 extern char *display[4];
 extern volatile unsigned char update_display;
+extern volatile unsigned int update_display_count;
+extern volatile unsigned int Time_Sequence;
+extern volatile unsigned int second_count;
+extern volatile unsigned int universal_count;
 
 void Init_Conditions(void){
 //------------------------------------------------------------------------------
+
+    Time_Sequence = 0;
+    update_display_count = 0;
+    universal_count = 0;
+    second_count = 0;
 
   int i;
   for(i=0;i<11;i++){

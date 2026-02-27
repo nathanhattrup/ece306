@@ -139,21 +139,12 @@ void out_control_words(void);
 // Motors
 void motors_off(void);
 void motors_forward(void);
+void motors_turn_cw(void);
+void motors_turn_ccw(void);
 
 void Run_Straight(void);
-void Run_Circle(void);
 void wait_case(void);
 void start_case(void);
 void end_case(void);
-void run_straight(void);
-void run_case_circle_ccw(void);
-void run_circle_cw(void);
-void run_circle_ccw_half(void);
-void run_circle_cw_half(void);
-void run_circle_ccw(void);
-void run_case_fig8(void);
-void Run_Fig8(void);
-void Run_Triangle(void);
-void run_case_triangle(void);
-void run_turn(void);
-void end_case_circle(void);
+void run_case_straight(void);
+

@@ -23,11 +23,11 @@ volatile char slow_input_down;
 extern char display_line[4][11];
 extern char *display[4];
 unsigned char display_mode;
-extern volatile unsigned char display_changed;
-extern volatile unsigned char update_display;
-extern volatile unsigned int update_display_count;
-extern volatile unsigned int Time_Sequence;
-extern volatile char one_time;
+ volatile unsigned char display_changed;
+ volatile unsigned char update_display;
+ volatile unsigned int update_display_count;
+volatile unsigned int Time_Sequence;
+volatile char one_time;
 unsigned int test_value;
 char chosen_direction;
 char change;
@@ -83,7 +83,7 @@ void main(void){
 //------------------------------------------------------------------------------
   while(ALWAYS) {                      // Can the Operating system run
 //    Carlson_StateMachine();            // Run a Time Based State Machine
-    Switches_Process();                // Check for switch state change
+//    Switches_Process();                // Check for switch state change
     Display_Process();                 // Update Display
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
 
@@ -94,18 +94,11 @@ void main(void){
     }
 
     switch(event){
-    case STRAIGHT: // Straight UNUSED
+    case PROJ5: // Runs project 5 movement
+        strcpy(display_line[0], " Proj5    ");
+        display_changed = TRUE;
         Run_Straight();
         break; //
-    case CIRCLE: // Circle
-        Run_Circle();
-        break; //
-    case FIG8:  //Fig8
-        Run_Fig8();
-        break;
-    case TRIANGLE:  //Triangle
-        Run_Triangle();
-        break;
     default: break;
     }
 
