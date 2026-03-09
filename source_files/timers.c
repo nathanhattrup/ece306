@@ -1,6 +1,5 @@
-/*
- All my timers in one handy place
- */
+//Timers init and interrupts
+//===================================
 // INCLUDES UPDATED 02.16.26
 #include  "msp430.h"
 #include  <string.h>
@@ -15,10 +14,16 @@ extern volatile unsigned int update_display_count;
 extern volatile unsigned int Time_Sequence;
 volatile unsigned int universal_count;
 volatile unsigned int second_count;
+volatile unsigned int adc_count;
 
 void Init_Timers(void){     //from main
     Init_Timer_B0();
+    Init_Timer_B3();
 }
+
+//================================================================
+//TIMER INITS
+//=============================================================
 
 void Init_Timer_B0(void){
 //------------------------------------------------------------------------------
@@ -51,7 +56,33 @@ void Init_Timer_B0(void){
     TB0CTL &= ~TBIE; // Timer A0 overflow interrupt disable
     TB0CTL &= ~TBIFG; // Clear Overflow Interrupt flag
 }
+//-------------------------------------------------------
+void Init_Timer_B3(void) {
+TB3CTL = TBSSEL__SMCLK; // SMCLK
+TB3CTL |= MC__UP; // Up Mode
+TB3CTL |= TBCLR; // Clear TAR
 
+PWM_PERIOD = WHEEL_PERIOD; // PWM Period [Set this to 50005]
+TB3CCTL1 = OUTMOD_7; // CCR1 reset/set
+LCD_BACKLIGHT_DIMING = DIM; // P6.0 backlight
+
+TB3CCTL2 = OUTMOD_7; // CCR2 reset/set
+RIGHT_FORWARD_SPEED = WHEEL_OFF; // P6.1 Right Forward PWM duty cycle
+
+TB3CCTL3 = OUTMOD_7; // CCR3 reset/set
+LEFT_FORWARD_SPEED = WHEEL_OFF; // P6.2 Left Forward PWM duty cycle
+
+TB3CCTL4 = OUTMOD_7; // CCR4 reset/set
+RIGHT_REVERSE_SPEED = WHEEL_OFF; // P6.3 Right Reverse PWM duty cycle
+
+TB3CCTL5 = OUTMOD_7; // CCR5 reset/set
+LEFT_REVERSE_SPEED = WHEEL_OFF; // P6.4 Left Reverse PWM duty cycle
+//------------------------------------------------------------------------------
+}
+
+//===============================================================
+//TIMER INTERUPTS
+//====================================================================
 
 #pragma vector = TIMER0_B0_VECTOR
 __interrupt void Timer0_B0_ISR(void){
@@ -61,6 +92,15 @@ __interrupt void Timer0_B0_ISR(void){
     Time_Sequence++;
     update_display_count++;
     universal_count++;
+    adc_count++;
+
+    switch(adc_count){
+    case 5:     //50ms
+        ADCCTL0 |= ADCSC;       //Start next sample
+        adc_count = 0;
+        break;
+    default: break;
+    }
 
     switch(update_display_count){
     case 20:    //200ms

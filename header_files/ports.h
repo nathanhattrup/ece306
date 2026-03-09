@@ -5,12 +5,12 @@
 #define SMCLK_ON               (0x01) //
 #define PORTS                  (0x00) // RED LED 0
 #define PWM_MODE               (0x01) // GREEN LED 1
-#define WHEEL_OFF              (0x00)
+/*#define WHEEL_OFF              (0x00)
 #define WHEEL_PERIOD          (10000)
 #define RIGHT_FORWARD_SPEED (TB3CCR2)
 #define RIGHT_REVERSE_SPEED (TB3CCR3)
 #define LEFT_FORWARD_SPEED  (TB3CCR4)
-#define LEFT_REVERSE_SPEED  (TB3CCR5)
+#define LEFT_REVERSE_SPEED  (TB3CCR5) */
 #define STEP                   (2000)
 #define FORWARD                (0x00) // FORWARD
 #define REVERSE                (0x01) // REVERSE
@@ -58,7 +58,7 @@
 
 // Port 5 Pins
 #define V_BAT                  (0x01) // 5.0 V_BAT
-#define V_5                  (0x02) // 5.1 V_5_0
+#define V_5_0                  (0x02) // 5.1 V_5_0
 #define V_DAC                  (0x04) // 5.2 V_DAC
 #define V_3_3                  (0x08) // 5.3 V_3_3
 #define IOT_BOOT_CPU               (0x10) // 5.4 IOT_BOOT           1

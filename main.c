@@ -35,11 +35,12 @@ char change;
 unsigned int wheel_move;
 char forward;
 
-unsigned int Last_Time_Sequence; // a variable to identify Time_Sequence has changed
-unsigned int cycle_time; // is a new time base used to control making shapes
-unsigned int time_change; // is an identifier that a change has occurred
-
 extern char event;      //event tag
+
+extern char adc_char[4];
+extern volatile unsigned int ADC_Thumb;
+extern volatile unsigned int ADC_Left_Det;
+extern volatile unsigned int ADC_Right_Det;
 
 //void main(void){
 void main(void){
@@ -60,18 +61,18 @@ void main(void){
   Init_Conditions();                   // Initialize Variables and Initial Conditions
   Init_Timers();                       // Initialize Timers
   Init_LCD();                          // Initialize LCD
+  Init_ADC();                          //Initialize ACD (sets thumb wheel)
 
   motors_off();                        // turns off motors
-  Init_Switches();                     // turns off switches
-  event = NONE;                         //sets event to nonew
+  event = NONE;                         //sets event to none
 
   //P2OUT &= ~RESET_LCD;
   // Place the contents of what you want on the display, in between the quotes
 // Limited to 10 characters per line
   strcpy(display_line[0], " Nathan   ");
   strcpy(display_line[1], " Hattrup  ");
-  strcpy(display_line[2], " SW1 SW2  ");
-  strcpy(display_line[3], " <-- -->  ");
+  strcpy(display_line[2], "<SW1  SW2>");
+  strcpy(display_line[3], "          ");
   display_changed = TRUE;
 //  Display_Update(0,0,0,0);
 
@@ -83,25 +84,21 @@ void main(void){
 //------------------------------------------------------------------------------
   while(ALWAYS) {                      // Can the Operating system run
 //    Carlson_StateMachine();            // Run a Time Based State Machine
-//    Switches_Process();                // Check for switch state change
     Display_Process();                 // Update Display
-    P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE OFF
-
-    if(Last_Time_Sequence != Time_Sequence){
-    Last_Time_Sequence = Time_Sequence;
-    cycle_time++;
-    time_change = 1;
-    }
+    P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE
 
     switch(event){
-    case PROJ5: // Runs project 5 movement
-        strcpy(display_line[0], " Proj5    ");
+    case PROJ6: // Runs project 6 movement
+        strcpy(display_line[0], " Proj6    ");
+        strcpy(display_line[1], "          ");
         display_changed = TRUE;
         Run_Straight();
         break; //
     default: break;
     }
 
+//    thumb_read(ADC_Thumb);
+//    detector_display();
   }
 //------------------------------------------------------------------------------
 

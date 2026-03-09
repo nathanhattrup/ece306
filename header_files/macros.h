@@ -20,7 +20,7 @@
 #define START ('S')
 #define RUN ('R')
 #define END ('E')
-#define PROJ5 ('P')
+#define PROJ6 ('P')
 
 // SWITCHES ======================================================================
 #define PRESSED (0x00)
@@ -36,3 +36,18 @@
 #define TB0CCR0_INTERVAL (1250)
 #define TB0CCR1_INTERVAL (62500)
 #define TB0CCR2_INTERVAL (62500)
+
+//PWM ===========================================================================
+#define PWM_PERIOD (TB3CCR0)
+#define LCD_BACKLIGHT_DIMING (TB3CCR1)
+#define RIGHT_FORWARD_SPEED (TB3CCR2)
+#define LEFT_FORWARD_SPEED (TB3CCR3)
+#define RIGHT_REVERSE_SPEED (TB3CCR4)
+#define LEFT_REVERSE_SPEED (TB3CCR5)
+
+#define WHEEL_PERIOD (50005)
+#define WHEEL_OFF (0)
+#define SLOW (10000)
+#define FAST (50000)
+#define BRIGHT (50000)
+#define DIM (45000)

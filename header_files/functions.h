@@ -148,3 +148,10 @@ void start_case(void);
 void end_case(void);
 void run_case_straight(void);
 
+//ADC
+void HEXtoBCD (int hex_value);
+void adc_line(char line, char location);
+void Init_ADC(void);
+void thumb_read(unsigned thumb_value);
+void adc_calibrate(void);
+void detector_display(void);
