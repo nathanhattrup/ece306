@@ -15,6 +15,7 @@ extern volatile unsigned char display_changed;
 extern volatile unsigned int ADC_Thumb;
 extern volatile unsigned int ADC_Left_Det;
 extern volatile unsigned int ADC_Right_Det;
+
 //-----------------------------------------------------------------
 // Hex to BCD Conversion
 // Convert a Hex number to a BCD for display on an LCD or monitor
@@ -60,7 +61,7 @@ void adc_line(char line, char location) {
     }
 }
 
-void thumb_read(unsigned thumb_value) {
+void thumb_read(unsigned int thumb_value) {
     if (thumb_value >= 2048){       //when thumbwheel is to the right
         strcpy(display_line[3], "Right:    ");
         display_changed = TRUE;
@@ -86,4 +87,27 @@ void detector_display(void){
     HEXtoBCD(ADC_Left_Det);
     adc_line(3, 6);
 
+}
+
+void timer_display(unsigned int ticks){
+    unsigned int whole;          // whole seconds portion
+    unsigned int frac;           // fractional digit (0-4 maps to 0,2,4,6,8)
+
+    whole = ticks / 5;           // 5 ticks per second -> whole seconds
+    frac  = (ticks % 5) * 2;    // remainder * 2 gives tenths (0.0, 0.2, 0.4, 0.6, 0.8)
+
+
+    HEXtoBCD(whole);             // convert whole seconds to BCD characters
+
+    // place whole-seconds digits on line 3
+    // using positions 2-5 for up to 4 digits
+    strcpy(display_line[3], "          "); // clear line 3
+    display_line[3][2] = adc_char[0];     // thousands digit
+    display_line[3][3] = adc_char[1];     // hundreds digit
+    display_line[3][4] = adc_char[2];     // tens digit
+    display_line[3][5] = adc_char[3];     // ones digit
+    display_line[3][6] = '.';             // decimal point
+    display_line[3][7] = '0' + frac;      // tenths digit (0,2,4,6,8)
+
+    display_changed = TRUE;               // flag display update again
 }

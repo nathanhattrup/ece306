@@ -20,7 +20,7 @@
 #define START ('S')
 #define RUN ('R')
 #define END ('E')
-#define PROJ6 ('P')
+#define PROJ ('P')
 
 // SWITCHES ======================================================================
 #define PRESSED (0x00)
@@ -47,7 +47,25 @@
 
 #define WHEEL_PERIOD (50005)
 #define WHEEL_OFF (0)
-#define SLOW (10000)
+#define SLOW (15000)
+#define SLOW_L (17000)
 #define FAST (50000)
 #define BRIGHT (50000)
 #define DIM (45000)
+
+//DAC===================================================================
+#define DAC_Begin (2725) // 2v
+//#define DAC_Limit (850) // 6.08v
+//#define DAC_Adjust (875) // 6.00v
+//#define DAC_Limit (1500) // 4.02v
+//#define DAC_Adjust (1505) // 4.00v
+//#define DAC_Limit (1400) // 4.29v
+//#define DAC_Adjust (1405) // 4.32v
+//#define DAC_Limit (1300) // 4.66v
+//#define DAC_Adjust (1300) // 4.66v
+#define DAC_Limit (1165) // 4.98v?
+#define DAC_Adjust (1190) // 5.00v
+//#define DAC_Limit (1000) // 5.61v
+//#define DAC_Adjust (1033) // 5.50v
+//#define DAC_Limit (715) // 6.5v
+//#define DAC_Adjust (712) // 6.5v

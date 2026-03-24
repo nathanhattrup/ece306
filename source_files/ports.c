@@ -130,10 +130,7 @@ void Init_Port3(void)
     P3OUT &= ~SMCLK;                   // Initial Value = Low / Off
     P3DIR &= ~SMCLK;                   // Direction = input
 
-    P3SEL0 &= ~DAC_CNTL;                // DAC_CNTL GPIO operation
-    P3SEL1 &= ~DAC_CNTL;                // DAC_CNTL GPIO operation
-    P3OUT &= ~DAC_CNTL;                // Initial Value = Low / Off
-    P3DIR &= ~DAC_CNTL;                // Direction = input
+    P3SELC |= DAC_CNTL;         // DAC_CNTL DAC operation
 
     P3SEL0 &= ~IOT_LINK_CPU;            // IOT_LINK_CPU GPIO operation
     P3SEL1 &= ~IOT_LINK_CPU;            // IOT_LINK_CPU GPIO operation
@@ -216,28 +213,28 @@ void Init_Port6(void)
     P6OUT = 0x00;                       // P6 set Low
     P6DIR = 0x00;                       // Set P6 direction to input
 
-    P6SEL0 |= LCD_BACKLITE;            // LCD_BACKLITE GPIO operation
-    P6SEL1 &= ~LCD_BACKLITE;            // LCD_BACKLITE GPIO operation
+    P6SEL0 |= LCD_BACKLITE;            // LCD_BACKLITE PWM operation
+    P6SEL1 &= ~LCD_BACKLITE;            // LCD_BACKLITE PWM operation
 //    P6OUT &= ~LCD_BACKLITE;            // Initial Value = High / On
     P6DIR |= LCD_BACKLITE;            // Direction = output
 
-    P6SEL0 |=  R_FORWARD;               // R_FORWARD GPIO operation
-    P6SEL1 &= ~R_FORWARD;               // R_FORWARD GPIO operation
+    P6SEL0 |=  R_FORWARD;               // R_FORWARD PWM operation
+    P6SEL1 &= ~R_FORWARD;               // R_FORWARD PWM operation
 //    P6OUT &= ~R_FORWARD;               // Initial Value = Low / Off
     P6DIR |= R_FORWARD;               // Direction = output
 
-    P6SEL0 |=  L_FORWARD;               // L_FORWARD GPIO operation
-    P6SEL1 &= ~L_FORWARD;               // L_FORWARD GPIO operation
+    P6SEL0 |=  L_FORWARD;               // L_FORWARD PWM operation
+    P6SEL1 &= ~L_FORWARD;               // L_FORWARD PWM operation
 //    P6OUT &= ~L_FORWARD;               // Initial Value = Low / Off
     P6DIR |= L_FORWARD;               // Direction = output
 
-    P6SEL0 |=  R_REVERSE;               // R_REVERSE GPIO operation
-    P6SEL1 &= ~R_REVERSE;               // R_REVERSE GPIO operation
+    P6SEL0 |=  R_REVERSE;               // R_REVERSE PWM operation
+    P6SEL1 &= ~R_REVERSE;               // R_REVERSE PWM operation
 //    P6OUT &= ~R_REVERSE;               // Initial Value = Low / Off
     P6DIR |= R_REVERSE;               // Direction = output
 
-    P6SEL0 |=  L_REVERSE;               // L_REVERSE GPIO operation
-    P6SEL1 &= ~L_REVERSE;               // L_REVERSE GPIO operation
+    P6SEL0 |=  L_REVERSE;               // L_REVERSE PWM operation
+    P6SEL1 &= ~L_REVERSE;               // L_REVERSE PWM operation
 //    P6OUT &= ~L_REVERSE;               // Initial Value = Low / Off
     P6DIR |= L_REVERSE;               // Direction = output
 

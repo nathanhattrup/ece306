@@ -24,6 +24,7 @@ char event;      //event tag
 
 extern volatile unsigned int universal_count;
 extern volatile unsigned int second_count;
+extern volatile unsigned int stupid_count;
 
 extern volatile unsigned int ADC_Left_Det;
 extern volatile unsigned int ADC_Right_Det;
@@ -47,7 +48,8 @@ __interrupt void switchP4_interrupt(void){
 
         universal_count = 0;
         second_count = 0;
-        event = PROJ6;
+        stupid_count = 0;
+        event = PROJ;
 
 
        // P6OUT &= ~LCD_BACKLITE;

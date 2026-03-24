@@ -146,12 +146,16 @@ void Run_Straight(void);
 void wait_case(void);
 void start_case(void);
 void end_case(void);
-void run_case_straight(void);
+void run_case_line_detect(void);
+void run_case_line_follow(void);
 
 //ADC
 void HEXtoBCD (int hex_value);
 void adc_line(char line, char location);
 void Init_ADC(void);
-void thumb_read(unsigned thumb_value);
+void thumb_read(unsigned int thumb_value);
 void adc_calibrate(void);
 void detector_display(void);
+
+void Init_DAC(void);
+void timer_display(unsigned int ticks);

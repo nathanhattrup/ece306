@@ -18,6 +18,9 @@ extern volatile unsigned int update_display_count;
 extern volatile unsigned int Time_Sequence;
 extern volatile unsigned int second_count;
 extern volatile unsigned int universal_count;
+extern volatile unsigned int stupid_count;
+
+extern volatile unsigned int DAC_data;
 
 void Init_Conditions(void){
 //------------------------------------------------------------------------------
@@ -26,6 +29,7 @@ void Init_Conditions(void){
     update_display_count = 0;
     universal_count = 0;
     second_count = 0;
+    stupid_count = 0;
 
   int i;
   for(i=0;i<11;i++){
@@ -49,4 +53,23 @@ void Init_Conditions(void){
 // Interrupts are disabled by default, enable them.
   enable_interrupts();
 //------------------------------------------------------------------------------
+}
+
+void Init_DAC(void)
+{
+    SAC3DAC = DACSREF_0; // Select VCC as DAC reference
+    SAC3DAC |= DACLSEL_0; // DAC latch loads when DACDAT written
+    SAC3OA = NMUXEN; // SAC Negative input MUX control
+    SAC3OA |= PMUXEN; // SAC Positive input MUX control
+    SAC3OA |= PSEL_1; // 12-bit reference DAC source selected
+    SAC3OA |= NSEL_1; // Select negative pin input
+    SAC3OA |= OAPM; // Select low speed and low power mode
+    SAC3PGA = MSEL_1; // Set OA as buffer mode
+    SAC3OA |= SACEN; // Enable SAC
+    SAC3OA |= OAEN; // Enable OA
+    DAC_data = DAC_Begin; // Starting Low value for DAC output [2v]
+    SAC3DAT = DAC_data; // Initial DAC data
+    TB0CTL |= TBIE; // Timer B0 overflow interrupt enable
+    P1OUT |= RED_LED; //turn on led
+    SAC3DAC |= DACEN; // Enable DAC
 }

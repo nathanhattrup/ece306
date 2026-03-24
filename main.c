@@ -42,6 +42,8 @@ extern volatile unsigned int ADC_Thumb;
 extern volatile unsigned int ADC_Left_Det;
 extern volatile unsigned int ADC_Right_Det;
 
+extern volatile unsigned int stupid_count;
+
 //void main(void){
 void main(void){
 //    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
@@ -62,6 +64,7 @@ void main(void){
   Init_Timers();                       // Initialize Timers
   Init_LCD();                          // Initialize LCD
   Init_ADC();                          //Initialize ACD (sets thumb wheel)
+  Init_DAC();
 
   motors_off();                        // turns off motors
   event = NONE;                         //sets event to none
@@ -88,16 +91,14 @@ void main(void){
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE
 
     switch(event){
-    case PROJ6: // Runs project 6 movement
-        strcpy(display_line[0], " Proj6    ");
-        strcpy(display_line[1], "          ");
-        display_changed = TRUE;
+    case PROJ: // Runs project 7 movement
         Run_Straight();
         break; //
     default: break;
     }
 
 //    thumb_read(ADC_Thumb);
+    timer_display(stupid_count);
 //    detector_display();
   }
 //------------------------------------------------------------------------------

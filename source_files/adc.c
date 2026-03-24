@@ -8,6 +8,9 @@
 #include  "header_files\ports.h"
 #include  "header_files\macros.h"
 
+extern char display_line[4][11];
+extern volatile unsigned char display_changed;
+
 volatile unsigned int ADC_Thumb;
 volatile unsigned int ADC_Left_Det;
 volatile unsigned int ADC_Right_Det;
@@ -15,7 +18,12 @@ unsigned char ADC_Channel =0;
 
 unsigned int left_calibration;
 unsigned int right_calibration;
-
+unsigned int left_calibration_60;
+unsigned int right_calibration_60;
+unsigned int left_calibration_70;
+unsigned int right_calibration_70;
+unsigned int left_calibration_80;
+unsigned int right_calibration_80;
 
 //ADC Configuration
 //-----------------------------------------------------------------------------
@@ -88,15 +96,15 @@ __interrupt void ADC_ISR(void){
             case 1:
                 ADCMCTL0 &= ~ADCINCH_3;     //Last channel was A3
                 ADCMCTL0 |= ADCINCH_2;      //next channel A2
-                ADC_Right_Det = ADCMEM0;        //read a3
-                ADC_Right_Det = ADC_Right_Det >> 2;  //divide by 4
+                ADC_Left_Det = ADCMEM0;        //read a3
+                ADC_Left_Det = ADC_Left_Det >> 1;  //divide by 2
                 ADCCTL0 |= ADCSC;           //start next sample
                 break;
             case 2:
                 ADCMCTL0 &= ~ADCINCH_2;     //Last channel was A2
                 ADCMCTL0 |= ADCINCH_5;      //next channel A5
-                ADC_Left_Det = ADCMEM0;        //read a2
-                ADC_Left_Det = ADC_Left_Det >> 2;   //divide by 4
+                ADC_Right_Det = ADCMEM0;        //read a2
+                ADC_Right_Det = ADC_Right_Det >> 1;   //divide by 2
                 ADC_Channel = 0;        //reset
                 break;
             default: break;
@@ -110,8 +118,23 @@ __interrupt void ADC_ISR(void){
 void adc_calibrate(void){
     left_calibration = ADC_Left_Det;
     right_calibration = ADC_Right_Det;
-/*    HEXtoBCD(left_calibration);
+
+    left_calibration_60 = (left_calibration * 5) >> 3;      //62.5%
+    right_calibration_60 = (right_calibration * 5) >> 3;
+
+    left_calibration_70 = (left_calibration * 11) >> 4;     //68.75%
+    right_calibration_70 = (right_calibration * 11) >> 4;
+
+    left_calibration_80 = (left_calibration * 13) >> 4;     //81.25%
+    right_calibration_80 = (right_calibration * 13) >> 4;
+
+    strcpy(display_line[1], "R Cal:    ");
+    display_changed = TRUE;
+    HEXtoBCD(ADC_Right_Det);
+    adc_line(1, 6);
+
+    strcpy(display_line[2], "L Cal:    ");
+    display_changed = TRUE;
+    HEXtoBCD(ADC_Left_Det);
     adc_line(2, 6);
-    HEXtoBCD(right_calibration);
-    adc_line(3, 6); */
 }

@@ -15,6 +15,9 @@ extern volatile unsigned int Time_Sequence;
 volatile unsigned int universal_count;
 volatile unsigned int second_count;
 volatile unsigned int adc_count;
+volatile unsigned int stupid_count;
+
+volatile unsigned int DAC_data;
 
 void Init_Timers(void){     //from main
     Init_Timer_B0();
@@ -104,6 +107,7 @@ __interrupt void Timer0_B0_ISR(void){
 
     switch(update_display_count){
     case 20:    //200ms
+        stupid_count++;
         update_display = TRUE;
         update_display_count = 0;
         break;
@@ -142,6 +146,15 @@ __interrupt void TIMER0_B1_ISR(void){
             P6OUT &= ~GRN_LED;  //turn off led
         break;
         case 14: // overflow available for greater than 1 second timer
+        DAC_data = DAC_data - 100;
+        SAC3DAT = DAC_data; // Initial DAC data
+        if (DAC_data <= DAC_Limit)
+        {
+            DAC_data = DAC_Adjust;
+            SAC3DAT = DAC_data; // Initial DAC data
+            TB0CTL &= ~TBIE; // disable TimerB0 overflow interrupt
+            P1OUT &= ~RED_LED; //turn off led
+        }
         break;
         default: break;
     }
