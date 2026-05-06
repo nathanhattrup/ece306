@@ -19,6 +19,11 @@ volatile unsigned int stupid_count;
 
 volatile unsigned int DAC_data;
 
+volatile char dac_flag;
+
+volatile char google_flag;
+volatile unsigned int google_count;
+
 void Init_Timers(void){     //from main
     Init_Timer_B0();
     Init_Timer_B3();
@@ -96,6 +101,7 @@ __interrupt void Timer0_B0_ISR(void){
     update_display_count++;
     universal_count++;
     adc_count++;
+    google_count++;
 
     switch(adc_count){
     case 5:     //50ms
@@ -116,11 +122,12 @@ __interrupt void Timer0_B0_ISR(void){
 
     switch(universal_count){
     case 100:   //1s
-        second_count++;
+        second_count++;     //increases second count
         universal_count = 0;
         break;
     default: break;
     }
+
 
     TB0CCR0 += TB0CCR0_INTERVAL; // Add Offset to TBCCR0
 //----------------------------------------------------------------------------
@@ -150,6 +157,7 @@ __interrupt void TIMER0_B1_ISR(void){
         SAC3DAT = DAC_data; // Initial DAC data
         if (DAC_data <= DAC_Limit)
         {
+            dac_flag = 1;
             DAC_data = DAC_Adjust;
             SAC3DAT = DAC_data; // Initial DAC data
             TB0CTL &= ~TBIE; // disable TimerB0 overflow interrupt

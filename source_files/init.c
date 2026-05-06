@@ -22,14 +22,48 @@ extern volatile unsigned int stupid_count;
 
 extern volatile unsigned int DAC_data;
 
+extern char speed;
+extern char rx_flag;
+extern char baud_flag;
+extern volatile char dac_flag;
+extern char iot_init_flag;
+extern unsigned int cmd_state;
+extern int cal_flag;
+extern unsigned int display_state;
+
+extern unsigned int SLOW;
+extern unsigned int SLOW_L;
+
+extern char exit_flag;
+extern unsigned int pad8_state;
+
+extern volatile unsigned int google_count;
+extern volatile char google_flag;
+extern unsigned int line_int_state;
+
 void Init_Conditions(void){
 //------------------------------------------------------------------------------
-
+    //this is like all my random flags and states that just need to be initialized to 0
     Time_Sequence = 0;
     update_display_count = 0;
     universal_count = 0;
     second_count = 0;
     stupid_count = 0;
+    speed = 0;
+    rx_flag = 0;
+    baud_flag = 0;
+    dac_flag = 0;
+    iot_init_flag = 1;
+    cmd_state = 0;
+    SLOW = 15000;       //im sorrrryyyyy i know this isnt right convention but im lazy
+    SLOW_L = 16000;
+    cal_flag = 0;
+    display_state = 0;
+    exit_flag = 0;
+    pad8_state = 0;
+    google_count = 0;
+    google_flag = 0;
+    line_int_state = 0;
 
   int i;
   for(i=0;i<11;i++){

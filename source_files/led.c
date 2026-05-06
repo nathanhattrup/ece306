@@ -25,7 +25,7 @@ void Init_LEDs(void){
 //------------------------------------------------------------------------------
 }
 
-void Carlson_StateMachine(void){
+void Carlson_StateMachine(void){    //unused
     switch(Time_Sequence){
       case 250:                        //
         if(one_time){

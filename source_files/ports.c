@@ -69,7 +69,7 @@ void Init_Port2(void)
 
     P2SEL0 &= ~IR_LED;                  // P2_2 GPIO operation
     P2SEL1 &= ~IR_LED;                  // P2_2 GPIO operation
-    P2OUT  |=  IR_LED;                  // Initial Value = Low / Off
+    P2OUT  |=  IR_LED;                  // Initial Value = high
     P2DIR  |=  IR_LED;                  // Direction = output
 
     P2SEL0 &= ~SW2; // SW2 set as I/0
@@ -135,12 +135,12 @@ void Init_Port3(void)
     P3SEL0 &= ~IOT_LINK_CPU;            // IOT_LINK_CPU GPIO operation
     P3SEL1 &= ~IOT_LINK_CPU;            // IOT_LINK_CPU GPIO operation
     P3OUT &= ~IOT_LINK_CPU;            // Initial Value = Low / Off
-    P3DIR &= ~IOT_LINK_CPU;            // Direction = input
+    P3DIR |=  IOT_LINK_CPU;            // Direction = output
 
     P3SEL0 &= ~IOT_EN_CPU;              // IOT_EN_CPU GPIO operation
     P3SEL1 &= ~IOT_EN_CPU;              // IOT_EN_CPU GPIO operation
     P3OUT &= ~IOT_EN_CPU;              // Initial Value = Low / Off
-    P3DIR &= ~IOT_EN_CPU;              // Direction = input
+    P3DIR |= IOT_EN_CPU;              // Direction = output
 //----------------------------------------------------------------------------
 }
 
@@ -202,8 +202,8 @@ void Init_Port5(void)
 
     P5SEL0 &= ~IOT_BOOT_CPU;            // IOT_BOOT_CPU GPIO operation
     P5SEL1 &= ~IOT_BOOT_CPU;            // IOT_BOOT_CPU GPIO operation
-    P5OUT &= ~IOT_BOOT_CPU;            // Initial Value = Low / Off
-    P5DIR &= ~IOT_BOOT_CPU;            // Direction = input
+    P5OUT |=  IOT_BOOT_CPU;            // Initial Value = High
+    P5DIR |=  IOT_BOOT_CPU;            // Direction = output
 //----------------------------------------------------------------------------
 }
 

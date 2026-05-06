@@ -37,12 +37,8 @@ char forward;
 
 extern char event;      //event tag
 
-extern char adc_char[4];
+extern volatile unsigned int second_count;
 extern volatile unsigned int ADC_Thumb;
-extern volatile unsigned int ADC_Left_Det;
-extern volatile unsigned int ADC_Right_Det;
-
-extern volatile unsigned int stupid_count;
 
 //void main(void){
 void main(void){
@@ -63,21 +59,28 @@ void main(void){
   Init_Conditions();                   // Initialize Variables and Initial Conditions
   Init_Timers();                       // Initialize Timers
   Init_LCD();                          // Initialize LCD
-  Init_ADC();                          //Initialize ACD (sets thumb wheel)
+  Init_ADC();                          //Initialize ACD
   Init_DAC();
 
   motors_off();                        // turns off motors
   event = NONE;                         //sets event to none
 
+  Init_Serial_UCA0();      //sets to 115k default
+  Init_Serial_UCA1();
+
+
+
   //P2OUT &= ~RESET_LCD;
   // Place the contents of what you want on the display, in between the quotes
 // Limited to 10 characters per line
-  strcpy(display_line[0], " Nathan   ");
-  strcpy(display_line[1], " Hattrup  ");
-  strcpy(display_line[2], "<SW1  SW2>");
-  strcpy(display_line[3], "          ");
+  lcd_BIG_mid();
+  strcpy(display_line[0], "<SW1  SW2>");
+  strcpy(display_line[1], "  Nathan  ");
+  strcpy(display_line[2], "  Hattrup ");
   display_changed = TRUE;
 //  Display_Update(0,0,0,0);
+
+//  splash_baud(speed);       //displays baud on start (115k)
 
   wheel_move = 0;
   forward = TRUE;
@@ -86,20 +89,23 @@ void main(void){
 // Begining of the "While" Operating System
 //------------------------------------------------------------------------------
   while(ALWAYS) {                      // Can the Operating system run
-//    Carlson_StateMachine();            // Run a Time Based State Machine
+
+    Init_IOT();
     Display_Process();                 // Update Display
     P3OUT ^= TEST_PROBE;               // Change State of TEST_PROBE
 
+    //movement state machine ruins
     switch(event){
-    case PROJ: // Runs project 7 movement
+    case PROJ: // Runs project 10 line detect and following
         Run_Straight();
         break; //
     default: break;
     }
 
-//    thumb_read(ADC_Thumb);
-    timer_display(stupid_count);
+    comms_process();    //this controls ALL of my serial stuff and commands
+
 //    detector_display();
+//    thumb_read(ADC_Thumb);
   }
 //------------------------------------------------------------------------------
 

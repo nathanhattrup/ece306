@@ -47,8 +47,8 @@
 
 #define WHEEL_PERIOD (50005)
 #define WHEEL_OFF (0)
-#define SLOW (15000)
-#define SLOW_L (17000)
+// #define SLOW (15000)
+// #define SLOW_L (17500)
 #define FAST (50000)
 #define BRIGHT (50000)
 #define DIM (45000)
@@ -69,3 +69,8 @@
 //#define DAC_Adjust (1033) // 5.50v
 //#define DAC_Limit (715) // 6.5v
 //#define DAC_Adjust (712) // 6.5v
+
+//Serial
+#define BEGINNING (0)               // Beginning index for circular buffers
+#define SMALL_RING_SIZE (16)
+#define LARGE_RING_SIZE (16)

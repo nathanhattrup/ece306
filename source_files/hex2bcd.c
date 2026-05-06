@@ -60,7 +60,7 @@ void adc_line(char line, char location) {
         display_changed = TRUE;
     }
 }
-
+//lets me read left or right adc based on my thumbwheel position
 void thumb_read(unsigned int thumb_value) {
     if (thumb_value >= 2048){       //when thumbwheel is to the right
         strcpy(display_line[3], "Right:    ");
@@ -75,7 +75,7 @@ void thumb_read(unsigned int thumb_value) {
         adc_line(3, 6);
     }
 }
-
+//just a super basic way for me to read adc left and right in real time
 void detector_display(void){
     strcpy(display_line[2], "Right:    ");
     display_changed = TRUE;
@@ -110,4 +110,32 @@ void timer_display(unsigned int ticks){
     display_line[3][7] = '0' + frac;      // tenths digit (0,2,4,6,8)
 
     display_changed = TRUE;               // flag display update again
+}
+
+//i wanted atoi without including the stdlib library so i had claude make it for me
+int my_atoi(const char *s){
+    int result = 0;    // Accumulated numeric value
+    int sign = 1;      // Sign multiplier (1 for positive, -1 for negative)
+
+    // Skip leading whitespace (spaces, tabs, newlines, etc.)
+    while(*s == ' ' || *s == '\t' || *s == '\n' || *s == '\r'){
+        s++;
+    }
+
+    // Handle optional sign character
+    if(*s == '-'){
+        sign = -1;
+        s++;
+    } else if(*s == '+'){
+        s++;
+    }
+
+    // Accumulate digits: shift previous result left one decimal place,
+    // then add the numeric value of the current digit
+    while(*s >= '0' && *s <= '9'){
+        result = result * 10 + (*s - '0');
+        s++;
+    }
+
+    return result * sign;
 }

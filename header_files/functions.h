@@ -159,3 +159,29 @@ void detector_display(void);
 
 void Init_DAC(void);
 void timer_display(unsigned int ticks);
+
+//Serial
+void Init_Serial_UCA0(void);
+void Init_Serial_UCA1(void);
+void baud_speed(char speed);
+void USCI_A0_Transmit(void);
+void USCI_A1_Transmit(void);
+void splash_baud(char speed);
+void comms_process(void);
+
+//IOT
+void Init_IOT(void);
+void clear_rx_buffer(void);
+void center(char *array);
+int my_atoi(const char *s);
+
+//COMMANDS
+void stop_cmd(void);
+void fwd_cmd(int time);
+void rev_cmd(int time);
+void lturn_cmd(int angle);
+void rturn_cmd(int angle);
+void speed_change(int num);
+void line_int(void);
+void line_exit(void);
+void pad8(void);

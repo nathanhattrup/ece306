@@ -31,6 +31,10 @@ extern volatile unsigned int ADC_Right_Det;
 extern volatile unsigned int left_calibration;
 extern volatile unsigned int right_calibration;
 
+char speed;
+char transmit_flag;
+char baud_flag;
+extern unsigned int display_rx_index;
 //------------------------------------------------------------------------------
 // Switch Interrupts yayy
 //------------------------------------------------------------------------------
@@ -52,7 +56,6 @@ __interrupt void switchP4_interrupt(void){
         event = PROJ;
 
 
-       // P6OUT &= ~LCD_BACKLITE;
     }
 }
 #pragma vector=PORT2_VECTOR
@@ -71,5 +74,9 @@ __interrupt void switchP2_interrupt(void){
         second_count = 0;
 
         adc_calibrate();
+
+//        speed = !speed;             //flips between 115k baud and 57k baud
+//        baud_flag = 1;
+
     }
 }

@@ -25,6 +25,18 @@ unsigned int right_calibration_70;
 unsigned int left_calibration_80;
 unsigned int right_calibration_80;
 
+unsigned int left_calibration_75;
+unsigned int right_calibration_75;
+unsigned int left_calibration_85;
+unsigned int right_calibration_85;
+unsigned int left_calibration_90;
+unsigned int right_calibration_90;
+unsigned int left_white;
+unsigned int right_white;
+unsigned int white_diff;
+
+int cal_flag;
+
 //ADC Configuration
 //-----------------------------------------------------------------------------
 void Init_ADC(void)  {
@@ -116,8 +128,14 @@ __interrupt void ADC_ISR(void){
 }
 
 void adc_calibrate(void){
+
+    switch(cal_flag){
+    case 0:
     left_calibration = ADC_Left_Det;
     right_calibration = ADC_Right_Det;
+
+    left_calibration = (left_calibration * 35) >> 5;     //ummm gonna try raising my black calibration to 110%
+    right_calibration = (right_calibration * 35) >> 5;
 
     left_calibration_60 = (left_calibration * 5) >> 3;      //62.5%
     right_calibration_60 = (right_calibration * 5) >> 3;
@@ -125,16 +143,35 @@ void adc_calibrate(void){
     left_calibration_70 = (left_calibration * 11) >> 4;     //68.75%
     right_calibration_70 = (right_calibration * 11) >> 4;
 
+    left_calibration_75 = (left_calibration * 3) >> 2;     //75%
+    right_calibration_75 = (right_calibration * 3) >> 2;
+
     left_calibration_80 = (left_calibration * 13) >> 4;     //81.25%
     right_calibration_80 = (right_calibration * 13) >> 4;
 
-    strcpy(display_line[1], "R Cal:    ");
+    left_calibration_85 = (left_calibration * 27) >> 5;     //85%
+    right_calibration_85 = (right_calibration * 27) >> 5;
+
+    left_calibration_90 = (left_calibration * 29) >> 5;     //90%
+    right_calibration_90 = (right_calibration * 29) >> 5;
+
+    cal_flag++;
+    break;
+    case 1:     //this flag lets the first run-through calibrate black and the second do white
+        left_white = ADC_Left_Det;      //I DONT WANT TO CALIBRATE WHITE AHGHHHHHGHHGHHGSFGSFKJGF
+        right_white = ADC_Right_Det;
+
+        cal_flag = 0;
+
+        strcpy(display_line[0], " Waiting  ");
+        strcpy(display_line[1], "for  INPUT");      //carlson wants it to say this that is all
+        display_changed = TRUE;
+        break;
+    }
+    //displays the right value for a sanity check
+    strcpy(display_line[2], "R Cal:    ");
     display_changed = TRUE;
     HEXtoBCD(ADC_Right_Det);
-    adc_line(1, 6);
-
-    strcpy(display_line[2], "L Cal:    ");
-    display_changed = TRUE;
-    HEXtoBCD(ADC_Left_Det);
     adc_line(2, 6);
+
 }
